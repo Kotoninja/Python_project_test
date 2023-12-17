@@ -41,9 +41,9 @@ class Box:
         # print(self.velocity)
         friction = 0.1  # Коэффициент трения
         if self.left:
-            self.velocity -= 0.1  # Увеличиваем скорость влево
+            self.velocity -= 0.5  # Увеличиваем скорость влево
         if self.right:
-            self.velocity += 0.1  # Увеличиваем скорость вправо
+            self.velocity += 0.5  # Увеличиваем скорость вправо
 
         # Применяем трение
         if not self.left and not self.right:
@@ -51,6 +51,7 @@ class Box:
                 self.velocity -= friction
             elif self.velocity < 0:
                 self.velocity += friction
+
         self.velocity = round(self.velocity, 1)
 
         new_x = self.x + self.velocity
@@ -85,7 +86,7 @@ class BoxTest:
         self.x, self.y = 400, screenY - 2 * indentation
 
         self.velocity_box_test = 0  # Добавляем параметр скорости
-        self.weight = 10
+        self.weight = 5
 
         self.font_box_test = pygame.font.SysFont('arial', 40)
         self.text_box_test = self.font_box_test.render(f"{self.velocity_box_test}", True, 'red')
@@ -97,13 +98,23 @@ class BoxTest:
 
     def pulse(self, box_weight, box_velocity, box_flag):
         if self.velocity_box_test > 0:
-            self.velocity_box_test -= 1
+            self.velocity_box_test -= 0.1
 
         self.velocity_box_test = round(self.velocity_box_test, 1)
 
         if box_flag:
             self.velocity_box_test = box_velocity * box_weight / self.weight
-        self.x += self.velocity_box_test  # Применяем скорость к позиции куба
+
+        new_x = self.x + self.velocity_box_test
+        if 0 <= new_x <= screenX - self.wight:
+            self.x = new_x
+        else:
+            if new_x < 0:
+                self.x = 0
+                self.velocity_box_test -= self.velocity_box_test
+            if new_x + self.wight > screenX:
+                self.x = screenX - self.wight
+                self.velocity_box_test -= self.velocity_box_test
 
         self.text_box_test = self.font_box_test.render(f"{self.velocity_box_test}", True, 'red')
         self.pos_box_test = self.text_box_test.get_rect(center=(self.x + self.wight // 2, self.y + self.wight // 2))
@@ -116,7 +127,7 @@ if __name__ == "__main__":
     box = Box()
     box_test = BoxTest()
     while True:
-        clock.tick(20)
+        clock.tick(60)
         screen.fill('white')
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
