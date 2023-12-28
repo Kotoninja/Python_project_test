@@ -1,3 +1,5 @@
+import random
+
 import pygame
 
 pygame.init()
@@ -83,7 +85,7 @@ class Box:
 class BoxTest:
     def __init__(self):
         self.wight = 100
-        self.x, self.y = 400, screenY - 2 * indentation
+        self.x, self.y = 350, screenY - 2 * indentation
 
         self.velocity_box_test = 0  # Добавляем параметр скорости
         self.weight = 5
@@ -123,9 +125,22 @@ class BoxTest:
         return [self.x, self.y, self.wight, self.wight]
 
 
+class Line_board:
+    def __init__(self):
+        self.length = 100
+        self.color = "green"
+        self.coord_x_random = random.randint(450, screenX - self.length)
+        self.coord_y = screenY - 2 * indentation
+
+    def static(self):
+        pygame.draw.rect(screen, self.color, [self.coord_x_random, self.coord_y, self.length, self.length], 6)
+        # pygame.draw.line(screen, "green", [self.coord_x_random, self.coord_y], [self.coord_x_random + self.length, self.coord_y], 5)
+
+
 if __name__ == "__main__":
     box = Box()
     box_test = BoxTest()
+    line_board = Line_board()
     while True:
         clock.tick(60)
         screen.fill('white')
@@ -141,6 +156,7 @@ if __name__ == "__main__":
                 if event.key == pygame.K_F2:
                     box.__init__()
                     box_test.__init__()
+                    line_board.__init__()
             if event.type == pygame.KEYUP:
                 if event.key in [pygame.K_LEFT, pygame.K_RIGHT]:
                     box.moveflag(False, False)
@@ -150,6 +166,7 @@ if __name__ == "__main__":
         box.check_box_test(box_test.return_cords())
         box.movement()
         box.draw_box()
+        line_board.static()
         pygame.draw.line(screen, 'black', [0, screenY - indentation], [screenX, screenY - indentation], 5)
 
         for line in list_line:
