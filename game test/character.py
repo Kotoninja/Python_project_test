@@ -1,6 +1,6 @@
 from settings import *
-
-class Box:
+import pygame
+class Character:
     def __init__(self):
         self.wight = 100
         self.x_box, self.y_box = 200, screenY - 2 * indentation
@@ -54,7 +54,7 @@ class Box:
         self.text_box = self.font_box.render(f"{self.velocity}", True, 'black')
         self.pos_box = self.text_box.get_rect(center=(self.x_box + self.wight // 2, self.y_box + self.wight // 2))
 
-    def check_box_test(self, *coord_rect):
+    def check_box_mannequin(self, *coord_rect):
         if pygame.Rect([self.x_box, self.y_box, self.wight, self.wight]).colliderect(coord_rect):
             self.flag_box_contact = True
             self.x_box -= self.velocity + 1

@@ -1,8 +1,7 @@
+from settings import *
 from character import *
 from mannequin import *
 from win_cube import *
-
-import pygame, random
 
 pygame.init()
 
@@ -11,15 +10,23 @@ for x in range(0, screenX + degree_line_indentation, degree_line_indentation):
     list_line.append([[x, screenY - indentation], [x - degree_line_indentation, screenY]])
 
 
+def all_init():
+    box.__init__()
+    box_man.__init__()
+    win_box.__init__()
+    # sound_sliding.stop()
+
+
 def Win_text():
     font = pygame.font.SysFont('couriernew', 100)
     text = font.render(str('! YOU WIN !'), True, "green")
-    screen.blit(text,(screenX//2 - 250,100))
+    screen.blit(text, (screenX // 2 - 250, 100))
+
 
 if __name__ == "__main__":
-    box = Box()
-    box_man = BoxTest()
-    win_box = Line_board()
+    box = Character()
+    box_man = Mannequin()
+    win_box = Win_cube()
     while True:
         clock.tick(60)
         screen.fill('white')
@@ -33,14 +40,12 @@ if __name__ == "__main__":
                 if event.key == pygame.K_RIGHT:
                     box.moveflag(False, True)
                 if event.key == pygame.K_F2:
-                    box.__init__()
-                    box_man.__init__()
-                    win_box.__init__()
+                    all_init()
             if event.type == pygame.KEYUP:
                 if event.key in [pygame.K_LEFT, pygame.K_RIGHT]:
                     box.moveflag(False, False)
 
-        box.check_box_test(box_man.return_cords())
+        box.check_box_mannequin(box_man.return_cords())
         box.movement()
         box.draw_box()
 
@@ -51,7 +56,6 @@ if __name__ == "__main__":
         box_man.draw_box()
         win_box.draw()
         win_box.contact_with_mannequin(box_man.x_man, box_man.y_man)
-
 
         # surface rendering for cubes
         pygame.draw.line(screen, 'black', [0, screenY - indentation], [screenX, screenY - indentation], 5)

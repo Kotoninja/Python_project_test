@@ -1,8 +1,6 @@
 from settings import *
-import pygame, random
-import math
-
-class Line_board:
+import pygame,random,math
+class Win_cube:
     def __init__(self):
         self.length = 100
         self.color = "green"

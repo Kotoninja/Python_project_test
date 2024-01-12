@@ -2,10 +2,10 @@ from settings import *
 import pygame
 
 
-class BoxTest: # поменять название
+class Mannequin:
     def __init__(self):
         self.wight = 100
-        self.x_man, self.y_man = coord_line_stop_x - self.wight , screenY - 2 * indentation
+        self.x_man, self.y_man = coord_line_stop_x - self.wight, screenY - 2 * indentation
 
         self.velocity_box_test = 0  # Добавляем параметр скорости
         self.weight = 5
@@ -26,6 +26,7 @@ class BoxTest: # поменять название
 
         if box_flag:
             self.velocity_box_test = box_velocity * box_weight / self.weight
+            # sound_sliding.play(fade_ms=500)
 
         new_x = self.x_man + self.velocity_box_test
         if 0 <= new_x <= screenX - self.wight:
