@@ -1,4 +1,3 @@
-from settings import *
 from character import *
 from mannequin import *
 from win_cube import *
@@ -17,7 +16,7 @@ def all_init():
     # sound_sliding.stop()
 
 
-def Win_text():
+def win_text():
     font = pygame.font.SysFont('couriernew', 100)
     text = font.render(str('! YOU WIN !'), True, "green")
     screen.blit(text, (screenX // 2 - 250, 100))
@@ -36,16 +35,16 @@ if __name__ == "__main__":
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    box.moveflag(True, False)
+                    box.move_flag(True, False)
                 if event.key == pygame.K_RIGHT:
-                    box.moveflag(False, True)
+                    box.move_flag(False, True)
                 if event.key == pygame.K_F2:
                     all_init()
             if event.type == pygame.KEYUP:
                 if event.key in [pygame.K_LEFT, pygame.K_RIGHT]:
-                    box.moveflag(False, False)
+                    box.move_flag(False, False)
 
-        box.check_box_mannequin(box_man.return_cords())
+        box.check_collision_mannequin(box_man.return_cords())
         box.movement()
         box.draw_box()
 
@@ -55,7 +54,7 @@ if __name__ == "__main__":
         box_man.pulse(box.weight, box.velocity, box.flag_box_contact)
         box_man.draw_box()
         win_box.draw()
-        win_box.contact_with_mannequin(box_man.x_man, box_man.y_man)
+        win_box.contact_with_mannequin(box_man.x_man)
 
         # surface rendering for cubes
         pygame.draw.line(screen, 'black', [0, screenY - indentation], [screenX, screenY - indentation], 5)
@@ -63,6 +62,6 @@ if __name__ == "__main__":
         for line in list_line:
             pygame.draw.line(screen, 'black', line[0], line[1], 5)
 
-        if win_box.txt >= 90 and box_man.velocity_box_test == 0:
-            Win_text()
+        if win_box.text >= 90 and box_man.velocity_man == 0:
+            win_text()
         pygame.display.update()
